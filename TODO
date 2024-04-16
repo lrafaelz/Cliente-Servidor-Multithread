@@ -1,0 +1,29 @@
+### Todo List:
+
+### Desenvolvimento do Cliente:
+
+1. Implementar a conexão com o servidor usando sockets TCP.
+2. Receber o intervalo numérico do servidor.
+3. Realizar os cálculos com o intervalo numérico recebido (soma dos números pares, soma dos números ímpares, cálculo de PI).
+4. Enviar os resultados dos cálculos para o servidor.
+
+### Desenvolvimento do Servidor:
+
+1. Aceitar várias conexões de clientes (entre 10 e 100) utilizando um pool de threads.
+2. Gerar um intervalo numérico único para cada cliente conectado.
+3. Receber os resultados dos cálculos dos clientes.
+4. Imprimir os resultados recebidos dos cálculos na tela e seu somatório.
+
+### Testes:
+
+1. Testar o cliente e o servidor com diferentes cenários.
+2. Testar a performance do servidor com várias conexões simultâneas.
+
+### Documentação:
+
+1. Criar um documento descrevendo o funcionamento do cliente e do servidor.
+2. Incluir a estrutura do código, instruções de uso e resultados dos testes.
+
+### Prazo de Entrega: 02/05/2024 até às 23:59
+
+Espero que este todo list seja útil para o desenvolvimento do seu projeto de redes!
