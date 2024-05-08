@@ -2,11 +2,11 @@ import socket
 
 
 # Configurações do servidor
-HEADER = 64
+HEADER = 128
 PORT = 5050 
 FORMAT = 'utf-8' 
 DISCONNECT_MESSAGE = '!DESCONECTADO'
-SERVER = '192.168.240.198'
+SERVER = '192.168.0.103'
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,12 +20,70 @@ def send(msg):
   send_length += b' ' * (HEADER - len(send_length)) # representação de byte
   client.send(send_length)
   client.send(message)
-  print(client.recv(2048).decode(FORMAT))
 
-send('Hello world!')
-input()
-send('teste')
-input()
-send('bye')
+def receive():
+    msg_length = client.recv(HEADER).decode(FORMAT)
+    if msg_length:
+        msg_length = int(msg_length)
+        msg = client.recv(msg_length).decode(FORMAT)
+        return msg
+    return ""
+
+# Calculos
+
+def soma_pares(inicio, fim):
+    soma = 0
+    for num in range(inicio, fim + 1):
+        if num % 2 == 0: # Verifica se o número é par
+            soma += num
+    return soma
+
+def soma_impares(inicio, fim):
+    soma = 0
+    for num in range(inicio, fim + 1):
+        if num % 2 != 0: # Verifica se o número é ímpar
+            soma += num
+    return soma
+
+# Função para calcular o valor de pi (não entenndi muito bem)
+def f(x):
+    return 4 / (1 + x**2)
+
+def trapezio(a, b, n):
+    h = (b - a) / n
+    s = f(a) + f(b)
+    for i in range(1, n):
+        s += 2 * f(a + i * h)
+    return (h / 2) * s
+############################################
+
+# Intervalo [a, b]
+a = 0
+b = 1
+n = 1000 # Número de pontos de amostragem
+
+
+intervalo = receive()
+
+print(f'Intervalo recebido: {intervalo}') 
+
+inicio = int(intervalo.split(',')[0][1:])
+fim = int(intervalo.split(',')[1][:-1])
+
+soma_pares_intervalo = soma_pares(inicio, fim)
+soma_impares_intervalo = soma_impares(inicio, fim)
+
+print(f"Soma dos números pares no intervalo [{inicio}, {fim}]: {soma_pares_intervalo}")
+print(f"Soma dos números ímpares no intervalo [{inicio}, {fim}]: {soma_impares_intervalo}")
+try:
+    # Código para enviar ou receber mensagens
+    send("Soma dos números pares no intervalo: " + str(soma_pares_intervalo))
+    send("Soma dos números ímpares no intervalo: " + str(soma_impares_intervalo))
+    send("PI no intervalo: " + str(trapezio(a, b, n)))
+except ConnectionAbortedError:
+    print("A conexão foi abortada. Verifique o servidor e a rede.")
+except Exception as e:
+    print(f"Ocorreu um erro: {e}")
+
 
 send(DISCONNECT_MESSAGE)
