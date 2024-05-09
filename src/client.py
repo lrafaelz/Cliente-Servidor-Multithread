@@ -6,7 +6,7 @@ HEADER = 128
 PORT = 5050 
 FORMAT = 'utf-8' 
 DISCONNECT_MESSAGE = '!DESCONECTADO'
-SERVER = '192.168.0.103'
+SERVER = '192.168.0.105'
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,7 +45,7 @@ def soma_impares(inicio, fim):
             soma += num
     return soma
 
-# Função para calcular o valor de pi (não entenndi muito bem)
+# Função para calcular o valor de pi (não entendi muito bem)
 def f(x):
     return 4 / (1 + x**2)
 
@@ -60,7 +60,7 @@ def trapezio(a, b, n):
 # Intervalo [a, b]
 a = 0
 b = 1
-n = 1000 # Número de pontos de amostragem
+n = 10000 # Número de pontos de amostragem
 
 
 intervalo = receive()
@@ -86,4 +86,4 @@ except Exception as e:
     print(f"Ocorreu um erro: {e}")
 
 
-send(DISCONNECT_MESSAGE)
+# send(DISCONNECT_MESSAGE)

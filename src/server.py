@@ -1,5 +1,6 @@
 import socket
 import threading # Importa a biblioteca de threads
+import sys
 import time
 
 # Configurações do servidor
@@ -60,18 +61,20 @@ def start():
   # Habilita o servidor para aceitar conexões
   server.listen()
   print(f'[AGUARDANDO] O servidor está aguardando conexão em {SERVER}')
-  while True:
-    # Aceita a conexão de um cliente
-    conn, addr = server.accept()
-    # Ramifica em uma thread e envia conexão para função handle_client
-    thread = threading.Thread(target=handle_client, args=(conn, addr))
-    thread.start()
-    print(f'[CONEXÕES ATIVAS] {threading.active_count() -1}')
+  try:
+    while True:
+        # Aceita a conexão de um cliente
+        conn, addr = server.accept()
+        # Ramifica em uma thread e envia conexão para função handle_client
+        thread = threading.Thread(target=handle_client, args=(conn, addr))
+        thread.start()
+        print(f'[CONEXÕES ATIVAS] {threading.active_count() -1}')
+        print(f'[CONEXÕES TOTAIS] {client_counter}')
+  except KeyboardInterrupt:
+      print("Servidor está encerrando...")
+      server.close()
+      sys.exit(0)
 
-
-print('[INICIANDO] O servidor está iniciando...')
-start()
-
-# # Fechar os sockets
-# client_socket.close()
-# server_socket.close()
+if __name__ == '__main__':
+  print('[INICIANDO] O servidor está iniciando...')
+  start()
