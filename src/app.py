@@ -29,13 +29,12 @@ def server():
 @app.route('/clients', methods=['GET', 'POST'])
 def client():
   titulo = 'Cliente 🛠'
-  print(createdClients)
+  print(createdClients)  
   return render_template('clients.html', titulo=titulo, createdClients=createdClients)
 
 @app.route('/create_client')
 def create_client():
     global createdClients
-    createdClients += 1
     current_directory = os.path.dirname(os.path.realpath(__file__))
     script_path = os.path.join(current_directory, 'client.py')
     os_name = platform.system().lower()
@@ -49,6 +48,8 @@ def create_client():
 
     # Abrir um novo terminal e rodar o script client.py
     subprocess.Popen(command, shell=True)
+    # Fazer verificação de quando o ciente não conseguir se conectar ao servidor
+    createdClients += 1
     print(createdClients)
     return render_template('clients.html', createdClients=createdClients)
 

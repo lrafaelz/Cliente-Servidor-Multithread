@@ -39,7 +39,7 @@ class Server:
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Associa o socket com o endereço e porta
         self.server.bind(self.ADDR)
-        self.server.settimeout(5) # fechar após 5 segundos sem conexão
+        self.server.settimeout(15) # fechar após 15 segundos sem conexão
         self.results = Results()
         self.serverIsRunning = True
 
@@ -90,7 +90,7 @@ class Server:
               'pi': pi
           })
 
-          # Salva os resultados em um arquivo JSON
+          # Salva os resultados em um arquivo JSON na pasta raiz (Cliente-Servidor-Multithread/results.json)
           self.results.save_results('results.json')
 
           print(f'[RESULTADOS] {self.results.get_results()}')
