@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- faça uma interface legal bootstrap para transicionar entre  servidor, clientes e para exibir resultados resumidos -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>{{ titulo }}</h2>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Servidor</h5>
+                    <p class="card-text">Clique aqui para acessar o servidor</p>
+                    <a href="/server" class="btn btn-primary">Servidor</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="card-text">Clique aqui para acessar os clientes</p>
+                    <a href="/clients" class="btn btn-primary">Clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resultados</h5>
+                    <p class="card-text">Clique aqui para acessar os resultados</p>
+                    <a href="/results" class="btn btn-primary">Resultados</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

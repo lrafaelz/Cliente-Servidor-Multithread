@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Exibir botão para criar cliente e quantidade de clientes -->
+<div class="container text-center my-4">
+  <a href="/create_client" class="btn btn-primary">Criar cliente</a>
+  <p>Quantidade de clientes: {{ createdClients }}</p>
+</div>
+
+<!-- Exibir mensagem de erro -->
+{% if error %}
+<div class="container text-center my-4">
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+</div>
+{% endif %}
+    
+{% endblock content %}

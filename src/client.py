@@ -1,12 +1,12 @@
 import socket
 
-
 # Configurações do servidor
-HEADER = 128
+HEADER = 256
 PORT = 5050 
 FORMAT = 'utf-8' 
 DISCONNECT_MESSAGE = '!DESCONECTADO'
-SERVER = '192.168.0.105'
+SHUTDOWN_MESSAGE = 'shutdown'
+SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,7 +24,7 @@ def send(msg):
 def receive():
     msg_length = client.recv(HEADER).decode(FORMAT)
     if msg_length:
-        msg_length = int(msg_length)
+        msg_length = len(msg_length)
         msg = client.recv(msg_length).decode(FORMAT)
         return msg
     return ""
@@ -76,14 +76,13 @@ soma_impares_intervalo = soma_impares(inicio, fim)
 print(f"Soma dos números pares no intervalo [{inicio}, {fim}]: {soma_pares_intervalo}")
 print(f"Soma dos números ímpares no intervalo [{inicio}, {fim}]: {soma_impares_intervalo}")
 try:
-    # Código para enviar ou receber mensagens
-    send("Soma dos números pares no intervalo: " + str(soma_pares_intervalo))
-    send("Soma dos números ímpares no intervalo: " + str(soma_impares_intervalo))
-    send("PI no intervalo: " + str(trapezio(a, b, n)))
+    # Enviar os resultados para o servidor SOMA PARES, SOMA IMPARES, PI
+    send('[R]' + str(soma_pares_intervalo) + ',' + str(soma_impares_intervalo) + ',' + str(trapezio(a, b, n)))
 except ConnectionAbortedError:
     print("A conexão foi abortada. Verifique o servidor e a rede.")
 except Exception as e:
     print(f"Ocorreu um erro: {e}")
 
 
-# send(DISCONNECT_MESSAGE)
+
+send(DISCONNECT_MESSAGE)

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Exibir mensagem que o servidor está rodando e mostrar botão para fechar servidor ou criar clientes -->
+<div class="container text-center my-4">
+  <h1>Servidor rodando</h1>
+  <a href="/stop_server" class="btn btn-danger">Fechar servidor</a>
+  <a href="/clients" class="btn btn-primary">Criar clientes</a>
+</div>
+  
+{% endblock content %}

@@ -9,7 +9,8 @@ Criação de sockets em Python para trabalho 1 da disciplina de Redes de Computa
 - Python 3.12.X
 - Flask 3.0.2
 - Flask-SQLAlchemy 3.1.1
-- threading
+- threading -- deve ser substituído por multiprocessing
+- flask-socketio 5.3.6
 
 ### Instalação
 
