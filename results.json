@@ -1,51 +1,30 @@
 [
     {
-        "timestamp": "10/05/2024 09:14:14",
+        "timestamp": "10/05/2024 19:47:04",
         "cliente": 1,
         "soma_pares": "250000",
         "soma_impares": "249500",
         "pi": "3.14159265192314"
     },
     {
-        "timestamp": "10/05/2024 09:14:15",
+        "timestamp": "10/05/2024 19:47:04",
         "cliente": 2,
         "soma_pares": "750000",
         "soma_impares": "749500",
         "pi": "3.14159265192314"
     },
     {
-        "timestamp": "10/05/2024 09:14:15",
+        "timestamp": "10/05/2024 19:47:05",
         "cliente": 3,
         "soma_pares": "1250000",
         "soma_impares": "1249500",
         "pi": "3.14159265192314"
     },
     {
-        "timestamp": "10/05/2024 09:14:16",
+        "timestamp": "10/05/2024 19:47:05",
         "cliente": 4,
         "soma_pares": "1750000",
         "soma_impares": "1749500",
-        "pi": "3.14159265192314"
-    },
-    {
-        "timestamp": "10/05/2024 09:14:16",
-        "cliente": 5,
-        "soma_pares": "2250000",
-        "soma_impares": "2249500",
-        "pi": "3.14159265192314"
-    },
-    {
-        "timestamp": "10/05/2024 09:14:16",
-        "cliente": 6,
-        "soma_pares": "2750000",
-        "soma_impares": "2749500",
-        "pi": "3.14159265192314"
-    },
-    {
-        "timestamp": "10/05/2024 09:14:18",
-        "cliente": 7,
-        "soma_pares": "3250000",
-        "soma_impares": "3249500",
         "pi": "3.14159265192314"
     }
 ]

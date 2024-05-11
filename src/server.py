@@ -1,5 +1,5 @@
 import socket
-import threading # Importa a biblioteca de threads
+import threading
 import sys
 import time
 import json
@@ -16,9 +16,8 @@ class Results:
         return cls.data
 
     @classmethod
-    def save_results(cls, filename):
-        with open(filename, 'w') as f:
-            json.dump(cls.data, f, indent=4)
+    def save_results(cls, file):
+        json.dump(cls.data, file, indent=4)
 
     @classmethod
     def load_results(cls, filename):
@@ -27,7 +26,7 @@ class Results:
 
 class Server:
     # Configurações do servidor
-    def __init__(self):
+    def set(self):
         self.HEADER = 256 # Quantidade limite de bytes para cada mensagem
         self.PORT = 5050 # Porta para conexão
         self.SERVER = socket.gethostbyname(socket.gethostname()) # Endereço IP do servidor local
@@ -91,7 +90,9 @@ class Server:
           })
 
           # Salva os resultados em um arquivo JSON na pasta raiz (Cliente-Servidor-Multithread/results.json)
-          self.results.save_results('results.json')
+          file = open('results.json', 'w')
+          self.results.save_results(file)
+          file.close()
 
           print(f'[RESULTADOS] {self.results.get_results()}')
   
@@ -127,6 +128,7 @@ if __name__ == '__main__':
   print('[INICIANDO] O servidor está iniciando...')
   s = Server()
   try:
+      s.set()
       s.start()
   except KeyboardInterrupt:
       s.stop()

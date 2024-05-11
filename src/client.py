@@ -9,11 +9,10 @@ SHUTDOWN_MESSAGE = 'shutdown'
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(ADDR)
 
 
-def send(msg):
+
+def send(msg, client):
   message = msg.encode(FORMAT)
   msg_length = len (message)
   send_length = str(msg_length).encode(FORMAT)
@@ -21,7 +20,7 @@ def send(msg):
   client.send(send_length)
   client.send(message)
 
-def receive():
+def receive(client):
     msg_length = client.recv(HEADER).decode(FORMAT)
     if msg_length:
         msg_length = len(msg_length)
@@ -57,32 +56,37 @@ def trapezio(a, b, n):
     return (h / 2) * s
 ############################################
 
-# Intervalo [a, b]
-a = 0
-b = 1
-n = 10000 # Número de pontos de amostragem
+def start():
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(ADDR)
+    # Intervalo [a, b]
+    a = 0
+    b = 1
+    n = 10000 # Número de pontos de amostragem
 
 
-intervalo = receive()
+    intervalo = receive(client)
 
-print(f'Intervalo recebido: {intervalo}') 
+    print(f'Intervalo recebido: {intervalo}') 
 
-inicio = int(intervalo.split(',')[0][1:])
-fim = int(intervalo.split(',')[1][:-1])
+    inicio = int(intervalo.split(',')[0][1:])
+    fim = int(intervalo.split(',')[1][:-1])
 
-soma_pares_intervalo = soma_pares(inicio, fim)
-soma_impares_intervalo = soma_impares(inicio, fim)
+    soma_pares_intervalo = soma_pares(inicio, fim)
+    soma_impares_intervalo = soma_impares(inicio, fim)
 
-print(f"Soma dos números pares no intervalo [{inicio}, {fim}]: {soma_pares_intervalo}")
-print(f"Soma dos números ímpares no intervalo [{inicio}, {fim}]: {soma_impares_intervalo}")
-try:
-    # Enviar os resultados para o servidor SOMA PARES, SOMA IMPARES, PI
-    send('[R]' + str(soma_pares_intervalo) + ',' + str(soma_impares_intervalo) + ',' + str(trapezio(a, b, n)))
-except ConnectionAbortedError:
-    print("A conexão foi abortada. Verifique o servidor e a rede.")
-except Exception as e:
-    print(f"Ocorreu um erro: {e}")
+    print(f"Soma dos números pares no intervalo [{inicio}, {fim}]: {soma_pares_intervalo}")
+    print(f"Soma dos números ímpares no intervalo [{inicio}, {fim}]: {soma_impares_intervalo}")
+    try:
+        # Enviar os resultados para o servidor SOMA PARES, SOMA IMPARES, PI
+        send('[R]' + str(soma_pares_intervalo) + ',' + str(soma_impares_intervalo) + ',' + str(trapezio(a, b, n)), client)
+    except ConnectionAbortedError:
+        print("A conexão foi abortada. Verifique o servidor e a rede.")
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
 
 
+    send(DISCONNECT_MESSAGE, client)
 
-send(DISCONNECT_MESSAGE)
+if __name__ == '__main__':
+  start()
