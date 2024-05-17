@@ -5,7 +5,8 @@ import time
 import json
 
 class Results:
-    data = []  # Variável de classe
+    data = []
+    finalResult = {}
 
     @classmethod
     def add_result(cls, result):
@@ -24,6 +25,17 @@ class Results:
         with open(filename, 'r') as f:
             cls.data = json.load(f)
 
+    @classmethod
+    def clear_results(cls):
+        cls.data = []
+        json.dump(cls.data, open('results.json', 'w'), indent=4)
+
+    @classmethod
+    def save_final_result(cls, finalResult, file):
+        cls.finalResult = finalResult
+        json.dump(cls.finalResult, file, indent=4)
+
+
 class Server:
     # Configurações do servidor
     def set(self):
@@ -33,6 +45,7 @@ class Server:
         self.ADDR = (self.SERVER, self.PORT) # Tupla com o endereço e porta
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MESSAGE = '!DESCONECTADO'
+        self.SHUTDOWN_MESSAGE = '!ENCERRAR'
         self.client_counter = 0
         # Criação do socket TCP
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,9 +67,12 @@ class Server:
               print(f'[CONEXÕES ATIVAS] {threading.active_count() -1}')
               print(f'[CONEXÕES TOTAIS] {self.client_counter}')
             except socket.timeout:
+               print('[ENCERRANDO] O servidor foi encerrado por inatividade')
+               self.final_result()
                self.stop()
     
     def stop(self):
+        print('[ENCERRANDO] O servidor está encerrando...')
         self.serverIsRunning = False
 
     # Função para lidar com um cliente
@@ -100,6 +116,13 @@ class Server:
           connected = False
           conn.send('msg recebida corretamente'.encode(self.FORMAT))
           print(f'[{addr}] {received_msg}')
+        
+        if received_msg == self.SHUTDOWN_MESSAGE:
+            connected = False
+            conn.send('msg recebida corretamente'.encode(self.FORMAT))
+            print(f'[{addr}] {received_msg}')
+            self.stop()
+           
       conn.close()
 
 
@@ -121,6 +144,22 @@ class Server:
             return msg
         return ""
 
+    # Gerar resultado final a partir do resultado calculado em cada cliente
+    def final_result(self):
+        # obter e realizar operações com os resultados de cada cliente
+        results = self.results.get_results()
+        self.results.finalResult = {
+            'soma_pares': 0,
+            'soma_impares': 0,
+            'pi': 0
+        }
+        for result in results:
+            self.results.finalResult['soma_pares'] += int(result['soma_pares'])
+            self.results.finalResult['soma_impares'] += int(result['soma_impares'])
+            self.results.finalResult['pi'] += float(result['pi'])
+        # salvar resultado final
+        print('[RESULTADO FINAL] ', self.results.finalResult)
+        self.results.save_final_result(self.results.finalResult, open('finalResult.json', 'w'))
 
 
 
@@ -131,6 +170,4 @@ if __name__ == '__main__':
       s.set()
       s.start()
   except KeyboardInterrupt:
-      s.stop()
-      print('[ENCERRANDO] O servidor foi encerrado.')
-  
+      s.stop()  

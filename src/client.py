@@ -5,12 +5,8 @@ HEADER = 256
 PORT = 5050 
 FORMAT = 'utf-8' 
 DISCONNECT_MESSAGE = '!DESCONECTADO'
-SHUTDOWN_MESSAGE = 'shutdown'
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
-
-
-
 
 def send(msg, client):
   message = msg.encode(FORMAT)
@@ -45,25 +41,26 @@ def soma_impares(inicio, fim):
     return soma
 
 # Função para calcular o valor de pi (não entendi muito bem)
-def f(x):
-    return 4 / (1 + x**2)
+# def f(x):
+#     return 4 / (1 + x**2)
 
-def trapezio(a, b, n):
-    h = (b - a) / n
-    s = f(a) + f(b)
-    for i in range(1, n):
-        s += 2 * f(a + i * h)
-    return (h / 2) * s
+# def trapezio(a, b, n):
+#     h = (b - a) / n
+#     s = f(a) + f(b)
+#     for i in range(1, n):
+#         s += 2 * f(a + i * h)
+#     return (h / 2) * s
+
+def pi(a, b):
+    pi = 0
+    for n in range(a, b + 1):
+        pi += 4 * ((-1) ** n) / (2 * n + 1)
+    return pi
 ############################################
 
 def start():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
-    # Intervalo [a, b]
-    a = 0
-    b = 1
-    n = 10000 # Número de pontos de amostragem
-
 
     intervalo = receive(client)
 
@@ -74,12 +71,13 @@ def start():
 
     soma_pares_intervalo = soma_pares(inicio, fim)
     soma_impares_intervalo = soma_impares(inicio, fim)
+    valor_pi = pi(inicio, fim)
 
     print(f"Soma dos números pares no intervalo [{inicio}, {fim}]: {soma_pares_intervalo}")
     print(f"Soma dos números ímpares no intervalo [{inicio}, {fim}]: {soma_impares_intervalo}")
     try:
         # Enviar os resultados para o servidor SOMA PARES, SOMA IMPARES, PI
-        send('[R]' + str(soma_pares_intervalo) + ',' + str(soma_impares_intervalo) + ',' + str(trapezio(a, b, n)), client)
+        send('[R]' + str(soma_pares_intervalo) + ',' + str(soma_impares_intervalo) + ',' + str(valor_pi), client)
     except ConnectionAbortedError:
         print("A conexão foi abortada. Verifique o servidor e a rede.")
     except Exception as e:

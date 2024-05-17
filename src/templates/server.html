@@ -11,27 +11,74 @@
   {% endif %}
 </div>
 
-<h3 class="text-center my-4">Histórico acessos por clientes</h3>
-<div class="accordion" id="accordionExample">
-  {% for result in results %}
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="heading{{ result.cliente }}">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ result.cliente }}" aria-expanded="true" aria-controls="collapse{{ result.cliente }}">
-        Cliente {{ result.cliente }}
-      </button>
-    </h2>
-    <div id="collapse{{ result.cliente }}" class="accordion-collapse collapse" aria-labelledby="heading{{ result.cliente }}" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <ul>
-          <li>Timestamp: {{ result.timestamp }}</li>
-          <li>Soma dos pares: {{ result.soma_pares }}</li>
-          <li>Soma dos ímpares: {{ result.soma_impares }}</li>
-          <li>Valor de pi: {{ result.pi }}</li>
-        </ul>
+{% if finalResult %}
+<div class="container text-center my-4">
+  <h3>Resultado final</h3>
+  <ul>
+    <li>Quantidade de clientes: {{ finalResult.clientes }}</li>
+    <li>Soma dos pares: {{ finalResult.soma_pares }}</li>
+    <li>Soma dos ímpares: {{ finalResult.soma_impares }}</li>
+    <li>Valor de pi: {{ finalResult.pi }}</li>
+  </ul>
+</div>
+{% endif %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      {% if serverIsRunning %}
+      <!-- Exibir botão para criar cliente e quantidade de clientes -->
+      <div class="container text-center my-4">
+        <a href="/create_client" class="btn btn-primary">Criar cliente</a>
+        <p>Quantidade de clientes: {{ createdClients }}</p>
       </div>
+      {% else %}
+      <!-- Exibir mensagem que o servidor não está rodando e que para criar clientes é necessário iniciar o servidor -->
+      <div class="container text-center my-4">
+        <div class="alert alert-warning" role="alert">
+          Para criar clientes é necessário iniciar o servidor
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Exibir mensagem de erro -->
+      {% if error %}
+      <div class="container text-center my-4">
+        <div class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-md-6 offset-md-1">
+      <h3 class="text-center my-4">Histórico acessos por clientes</h3>
+      <div class="accordion" id="accordionExample">
+        {% for result in results %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading{{ result.cliente }}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ result.cliente }}" aria-expanded="true" aria-controls="collapse{{ result.cliente }}">
+              Cliente {{ result.cliente }}
+            </button>
+          </h2>
+          <div id="collapse{{ result.cliente }}" class="accordion-collapse collapse" aria-labelledby="heading{{ result.cliente }}" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <ul>
+                <li>Timestamp: {{ result.timestamp }}</li>
+                <li>Soma dos pares: {{ result.soma_pares }}</li>
+                <li>Soma dos ímpares: {{ result.soma_impares }}</li>
+                <li>Valor de pi: {{ result.pi }}</li>
+              </ul>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
     </div>
   </div>
-  {% endfor %}
+</div>
+
+
 
 
 {% endblock content %}
