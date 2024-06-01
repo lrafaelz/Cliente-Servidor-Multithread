@@ -12,22 +12,17 @@ createdClients = 0
 results = 0
 
 # Rotas
-@app.route('/')
-def index():
-  titulo = 'Client-Servidor com threads 🔬🧪'
-  return render_template('index.html', titulo=titulo)
-
-@app.route('/server', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def server(refresh = True):
   global results
-  titulo = 'Servidor 🛜'
+  titulo = 'Client-Servidor com threads 🔬🧪'
   if refresh:
     Results.load_results('results.json')
     results = Results.get_results()
   else:
       Results.clear_results()
       results = Results.get_results()
-  return render_template('server.html', titulo=titulo, results=results, serverIsRunning=serverIsRunning, createdClients=createdClients)
+  return render_template('server.html', titulo=titulo, results=results, serverIsRunning=serverIsRunning, createdClients=createdClients, fi)
 
 @app.route('/create_client')
 def create_client():

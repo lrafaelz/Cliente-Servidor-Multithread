@@ -2,13 +2,36 @@
 {% block content %}
 
 <!-- botão para iniciar o servidor centralizado -->
-<div class="container text-center my-4">
-  <!-- se serverIsRunning for verdadeiro, exibir botão para fechar servidor se for falso exibir botão para iniciar servidor -->
-  {% if serverIsRunning %}
-    <a href="/stop_server" class="btn btn-danger">Fechar servidor</a>
-  {% else %}
-    <a href="/start_server" class="btn btn-primary">Iniciar servidor</a>
-  {% endif %}
+<div class="container my-4">
+  <div class="row">
+    <div class="col">
+        <h2>{{ titulo }}</h2>
+        <hr>
+    </div>
+</div>
+  <div class="text-center my-4">
+    <!-- se serverIsRunning for verdadeiro, exibir botão para fechar servidor se for falso exibir botão para iniciar servidor -->
+    {% if serverIsRunning %}
+      <a href="/stop_server" class="btn btn-danger">Fechar servidor</a>
+    {% else %}
+    <!-- Construir duas colunas, uma para iniciar servidor e outra contendo o resuldado final:
+        <li>Soma dos pares: {{ finalResult.soma_pares }}</li>
+        <li>Soma dos ímpares: {{ finalResult.soma_impares }}</li>
+        <li>Valor de pi: {{ finalResult.pi }}</li>
+    -->
+    <div class="container text-center my-4">
+      <a href="/start_server" class="btn btn-primary">Iniciar servidor</a>
+      <div class="container text-center my-4">
+        <h3>Resultado final</h3>
+        <ul>
+          <li>Quantidade de clientes: {{ finalResult.clientes }}</li>
+          <li>Soma dos pares: {{ finalResult.soma_pares }}</li>
+          <li>Soma dos ímpares: {{ finalResult.soma_impares }}</li>
+          <li>Valor de pi: {{ finalResult.pi }}</li>
+        </ul>
+      </div>
+    {% endif %}
+  </div>
 </div>
 
 {% if finalResult %}

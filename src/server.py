@@ -111,6 +111,7 @@ class Server:
           file.close()
 
           print(f'[RESULTADOS] {self.results.get_results()}')
+          self.final_result()
   
         if received_msg == self.DISCONNECT_MESSAGE:
           connected = False
