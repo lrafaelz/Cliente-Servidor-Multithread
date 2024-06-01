@@ -54,6 +54,7 @@ class Server:
         self.server.settimeout(15) # fechar após 15 segundos sem conexão
         self.results = Results()
         self.serverIsRunning = True
+        self.pi_total = 0
 
     # Inicia o servidor
     def start(self):
@@ -70,7 +71,7 @@ class Server:
                print('[ENCERRANDO] O servidor foi encerrado por inatividade')
                self.final_result()
                self.stop()
-    
+
     def stop(self):
         print('[ENCERRANDO] O servidor está encerrando...')
         self.serverIsRunning = False
@@ -94,6 +95,9 @@ class Server:
           print(f'[{addr}] Soma dos pares: {par}')
           print(f'[{addr}] Soma dos ímpares: {imp}')
           print(f'[{addr}] Valor de pi: {pi}')
+          self.soma_pi(float(pi))
+          print(f'[{addr}] Valor total de pi: {self.pi_total}')
+
 
           # Adiciona os resultados a uma lista
           self.results.add_result({
@@ -126,6 +130,8 @@ class Server:
            
       conn.close()
 
+    def soma_pi(self, pi):
+        self.pi_total += pi
 
     # Funções send e receive para simplificar o envio e recebimento de mensagens
     def send(self, conn, msg):

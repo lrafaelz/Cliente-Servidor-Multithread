@@ -40,17 +40,6 @@ def soma_impares(inicio, fim):
             soma += num
     return soma
 
-# Função para calcular o valor de pi (não entendi muito bem)
-# def f(x):
-#     return 4 / (1 + x**2)
-
-# def trapezio(a, b, n):
-#     h = (b - a) / n
-#     s = f(a) + f(b)
-#     for i in range(1, n):
-#         s += 2 * f(a + i * h)
-#     return (h / 2) * s
-
 def pi(a, b):
     pi = 0
     for n in range(a, b + 1):
