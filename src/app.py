@@ -19,10 +19,14 @@ def server(refresh = True):
   if refresh:
     Results.load_results('results.json')
     results = Results.get_results()
+    Results.load_results('finalResult.json')
+    finalResult = Results.get_results()
   else:
       Results.clear_results()
       results = Results.get_results()
-  return render_template('server.html', titulo=titulo, results=results, serverIsRunning=serverIsRunning, createdClients=createdClients, fi)
+      Results.load_results('finalResult.json')
+      finalResult = Results.get_results()
+  return render_template('server.html', titulo=titulo, results=results, serverIsRunning=serverIsRunning, createdClients=createdClients, finalResult=finalResult)
 
 @app.route('/create_client')
 def create_client():
@@ -68,7 +72,7 @@ def stop_server():
 @app.route('/final_result')
 def final_result():
     global results, serverIsRunning, createdClients
-    finalResult = Results.finalResult
+    
     return render_template('server.html', results=results, serverIsRunning=serverIsRunning, createdClients=createdClients, finalResult=finalResult, finalResultModal=True)
 
 
