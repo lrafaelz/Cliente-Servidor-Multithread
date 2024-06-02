@@ -67,14 +67,5 @@ def stop_server():
       print(f"Ocorreu um erro: {e}")
     return server(refresh=True)
 
-
-# se o arquivo finalResult.json for modificado, acessar rota que exibirá modal contendo o resultado final
-@app.route('/final_result')
-def final_result():
-    global results, serverIsRunning, createdClients
-    
-    return render_template('server.html', results=results, serverIsRunning=serverIsRunning, createdClients=createdClients, finalResult=finalResult, finalResultModal=True)
-
-
 if __name__ == '__main__':
     app.run(debug=True)
