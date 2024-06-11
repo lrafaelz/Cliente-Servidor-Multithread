@@ -30,3 +30,4 @@ def stopServer():
     receive(client)
     print('Enviando mensagem de encerramento...')
     send(SHUTDOWN_MESSAGE, client)
+  
